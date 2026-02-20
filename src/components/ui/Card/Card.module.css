@@ -1,0 +1,16 @@
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+}
+
+.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.clickable:hover {
+  background-color: var(--color-surface-light);
+  border-color: var(--color-text-muted);
+}
