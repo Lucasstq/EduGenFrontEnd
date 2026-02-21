@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await authService.register(data);
   };
 
-  const logout = () => {
+  const logout = async (): Promise<void> => {
     authService.clearTokens();
     setUser(null);
   };

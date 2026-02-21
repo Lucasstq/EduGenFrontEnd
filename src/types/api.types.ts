@@ -237,7 +237,10 @@ export interface VersionSpec {
 }
 
 // API Error
+// Interface para padronizar erros vindos do back-end
 export interface ApiError {
-  message: string;
-  status?: number;
+  timestamp: string;
+  code: number;
+  status: string;
+  errors: string[];
 }

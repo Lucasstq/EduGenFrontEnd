@@ -24,6 +24,18 @@ export const authService = {
     return response.data;
   },
 
+  async logoutFromServer(): Promise<void> {
+    const refreshToken = this.getRefreshToken();
+    if (refreshToken) {
+      try {
+        await api.post(`/auth/logout?refreshToken=${refreshToken}`);
+      } catch (error) {
+        // Mesmo se falhar no servidor, limpamos localmente
+        console.warn('Erro ao revogar token no servidor:', error);
+      }
+    }
+  },
+
   saveTokens(tokens: LoginResponse): void {
     localStorage.setItem('accessToken', tokens.accessToken);
     localStorage.setItem('refreshToken', tokens.refreshToken);
@@ -46,7 +58,8 @@ export const authService = {
     return !!this.getAccessToken();
   },
 
-  logout(): void {
+  async logout(): Promise<void> {
+    await this.logoutFromServer();
     this.clearTokens();
     window.location.href = '/login';
   },

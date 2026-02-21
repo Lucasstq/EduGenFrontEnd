@@ -1,4 +1,6 @@
 import axios from 'axios';
+import type { ApiError } from '../types/api.types';
+import { toast } from 'react-toastify';
 
 const API_BASE_URL = '/api';
 
@@ -34,18 +36,18 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem('refreshToken');
-      
+
       if (refreshToken) {
         try {
           const response = await axios.get(
             `${API_BASE_URL}/auth/refresh?refreshToken=${refreshToken}`
           );
-          
+
           const { accessToken, refreshToken: newRefreshToken } = response.data;
-          
+
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', newRefreshToken);
-          
+
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return api(originalRequest);
         } catch (refreshError) {
@@ -58,6 +60,15 @@ api.interceptors.response.use(
       } else {
         // Sem refresh token, redirecionar para login
         window.location.href = '/login';
+      }
+    }
+
+    // Tratamento centralizado de erros do back-end
+    if (error.response && error.response.data) {
+      const errData = error.response.data as ApiError;
+      if (errData && Array.isArray(errData.errors)) {
+        // Exibe as mensagens de erro como Toast
+        toast.error(errData.errors.join('\n'));
       }
     }
 
