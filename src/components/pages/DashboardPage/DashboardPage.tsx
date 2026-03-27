@@ -26,7 +26,7 @@ const subjectColors: Record<Subject, string> = {
 };
 
 export function DashboardPage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
