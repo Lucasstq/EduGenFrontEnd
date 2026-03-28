@@ -37,8 +37,9 @@ export function LoginPage() {
       await login(loginForm);
       navigate('/');
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { message?: string } } };
-      setError(error.response?.data?.message || 'Erro ao fazer login');
+      const error = err as { response?: { data?: { errors?: string[] } } };
+      const errors = error.response?.data?.errors;
+      setError(errors?.length ? errors.join(', ') : 'Erro ao fazer login');
     } finally {
       setIsLoading(false);
     }
@@ -62,8 +63,9 @@ export function LoginPage() {
       setError('');
       alert('Cadastro realizado com sucesso! Faça login para continuar.');
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { message?: string } } };
-      setError(error.response?.data?.message || 'Erro ao criar conta');
+      const error = err as { response?: { data?: { errors?: string[] } } };
+      const errors = error.response?.data?.errors;
+      setError(errors?.length ? errors.join(', ') : 'Erro ao criar conta');
     } finally {
       setIsLoading(false);
     }
