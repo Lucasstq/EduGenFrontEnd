@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../../contexts';
 import { Button, Input } from '../../ui';
 import styles from './LoginPage.module.css';
@@ -10,13 +10,18 @@ export function LoginPage() {
   const [activeTab, setActiveTab] = useState<TabType>('login');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
+  const [searchParams] = useSearchParams();
+  const { login, register } = useAuth();
+  const navigate = useNavigate();
+
+
   // Login form
   const [loginForm, setLoginForm] = useState({
     username: '',
     password: '',
   });
-  
+
   // Register form
   const [registerForm, setRegisterForm] = useState({
     username: '',
@@ -25,8 +30,15 @@ export function LoginPage() {
     confirmPassword: '',
   });
 
-  const { login, register } = useAuth();
-  const navigate = useNavigate();
+  useEffect(() => {
+    const verified = searchParams.get('verified');
+    if (verified === 'true') {
+      setError('✅ Email verificado com sucesso! Faça login para continuar.');
+      navigate('/login', { replace: true });
+    }
+  }, [searchParams, navigate]);
+
+
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,8 +72,7 @@ export function LoginPage() {
       await register(registerForm);
       setActiveTab('login');
       setLoginForm({ username: registerForm.username, password: '' });
-      setError('');
-      alert('Cadastro realizado com sucesso! Faça login para continuar.');
+      setError('✅ Cadastro realizado! Verifique seu e-mail para ativar a conta.');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { errors?: string[] } } };
       const errors = error.response?.data?.errors;
@@ -108,7 +119,11 @@ export function LoginPage() {
           </button>
         </div>
 
-        {error && <div className={styles.error}>{error}</div>}
+        {error && (
+          <div className={error.includes('✅') ? styles.success : styles.error}>
+            {error}
+          </div>
+        )}
 
         {activeTab === 'login' ? (
           <form onSubmit={handleLoginSubmit} className={styles.form}>
