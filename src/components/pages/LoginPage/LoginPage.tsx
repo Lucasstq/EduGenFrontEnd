@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../../contexts';
 import { Button, Input } from '../../ui';
 import styles from './LoginPage.module.css';
@@ -151,6 +151,9 @@ export function LoginPage() {
               fullWidth
               required
             />
+            <div className={styles.forgotPassword}>
+              <Link to="/forgot-password">Esqueci minha senha</Link>
+            </div>
             <Button type="submit" fullWidth isLoading={isLoading}>
               Entrar
             </Button>

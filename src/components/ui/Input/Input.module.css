@@ -46,3 +46,36 @@
   font-size: 0.75rem;
   color: var(--color-error);
 }
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .input {
+  width: 100%;
+}
+
+.hasToggle {
+  padding-right: 2.75rem;
+}
+
+.togglePassword {
+  position: absolute;
+  right: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease;
+}
+
+.togglePassword:hover {
+  color: var(--color-text);
+}

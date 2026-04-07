@@ -3,3 +3,5 @@ export { DashboardPage } from './DashboardPage';
 export { NewActivityPage } from './NewActivityPage';
 export { HistoryPage } from './HistoryPage';
 export { ActivityDetailPage } from './ActivityDetailPage';
+export { ForgotPasswordPage } from './ForgotPasswordPage';
+export { ResetPasswordPage } from './ResetPasswordPage';

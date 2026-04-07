@@ -24,6 +24,14 @@ export const authService = {
     return response.data;
   },
 
+  async forgotPassword(email: string): Promise<void> {
+    await api.post('/auth/forgot-password', { email });
+  },
+
+  async resetPassword(token: string, data: { newPassword: string; confirmNewPassword: string }): Promise<void> {
+    await api.post(`/auth/reset-password?token=${token}`, data);
+  },
+
   async logoutFromServer(): Promise<void> {
     const refreshToken = this.getRefreshToken();
     if (refreshToken) {

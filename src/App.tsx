@@ -8,6 +8,8 @@ import {
   ActivityDetailPage,
   ProfilePage,
   ProtectedRoute,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from './components';
 import './styles/globals.css';
 import { ToastContainer } from 'react-toastify';
@@ -19,6 +21,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<DashboardPage />} />
